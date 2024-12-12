@@ -1,0 +1,73 @@
+section {
+  margin: 1rem;
+}
+
+img {
+  max-width: 15rem;
+}
+
+.content {
+  margin: 1rem;
+}
+
+.form-control {
+  max-width: 30rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.alert {
+  margin-top: 1rem;
+  max-width: fit-content;
+}
+
+.nav-link {
+  color: grey;
+}
+
+.like {
+  text-decoration: none;
+}
+
+.like i {
+  color: red;
+}
+
+.like p {
+  display: inline-block;
+  color: black;
+}
+
+.card {
+  max-width: 30rem;
+}
+
+#auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#login,
+#register {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+@media (max-width: 600px) {
+  #auth {
+    flex-direction: column;
+  }
+
+  #login,
+  #register {
+    width: 100%;
+  }
+}

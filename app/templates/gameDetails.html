@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+<div class="row">
+  <div class="col-md-5">
+    <div class="position-sticky top-0">
+      <div id="gameDetails" class="content">
+        <h1>{{ game.title }} - {{ game.year }}</h1>
+        <h4 class="text-muted">{{ game.genre }}</h4>
+        <p>Can be played on: {{ game.platform }}</p>
+        <img src="/static/{{game.image}}" class="card-img-top" alt="{{game.title}}">
+        <h4>Description</h4>
+        <p>{{ game.description }}</p>
+      </div>
+
+      <div id="writeReview" class="content">
+        <h3>Write a Review</h3>
+        <form action="" method="post" name="reviewForm">
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+
+          <div class="form-group">
+            <label for="content">How was the game?</label>
+            {{ form.content(class="form-control", rows="5") }}
+            <small class="form-text text-muted">Please write a review of the game.</small>
+          </div>
+
+          <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+      </div>
+    </div>
+  </div>
+
+    <div class="col-md-7">
+      <div id="user_reviews" class="content">
+        <h3>Reviews</h3>
+        <!-- display logged in user's own review on top -->
+        {% for review in reviews %}
+        {% if current_user.id == review.user.id %}
+        <div class="card mb-3">
+          <div class="card-header">
+            <p class="card-title">{{ review.user.username }}</p>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ review.content }}</p>
+            <a href="/delete_review/{{ review.id }}" class="btn btn-danger" type="button">Delete</a>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <!-- display the rest of the reviews -->
+        {% for review in reviews %}
+        {% if current_user.id != review.user.id %}
+        <div class="card mb-3">
+          <div class="card-header">
+            <p class="card-title">{{ review.user.username }}</p>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ review.content }}</p>
+          </div>   
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="{{ url_for('static', filename='script.js')}}"></script>
+<script src="{{ url_for('static', filename='jquery.tablesorter.min.js')}}"></script>
+
+<section>
+  <div class="d-flex flex-row flex-wrap mb-3">
+    <h1>{{ header }}</h1>
+
+  </div>
+
+  <div class="d-flex flex-row flex-wrap">
+    {% for game in games %}
+    <div class="card mb-3 me-3">
+      <img src="/static/{{game.image}}" class="card-img-top" alt="{{game.title}} poster">
+      <div class="card-body">
+        <h5 class="card-title">{{ game.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{game.genre}}</h6>
+
+        <div class="d-flex justify-content-between">
+          {% if current_user.playedGames(game) %}
+          <a class="like" data-action="remove" data-game_id="{{game.id}}">
+            <i class="fa-solid fa-heart" tabindex="0" aria-label="Unlike" role="button"></i>
+            <p class="card-text">{{ game.playedUsers|length }}</p>
+          </a>
+          {% else %}
+          <a class="like" data-action="add" data-game_id="{{game.id}}">
+            <i class="fa-regular fa-heart" tabindex="0" aria-label="Like" role="button"></i>
+            <p class="card-text">{{ game.playedUsers|length }}</p>
+          </a>
+          {% endif %}
+          <a href="/game/{{game.id}}" class="btn btn-outline-primary" role="button">Read Reviews</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</section>
+{% endblock %}
